@@ -5,3 +5,5 @@ Faster R-CNN was selected as the best State-of-the-Art (SoA) system after evalua
 Faster R-CNN achieved the highest mAP and F1-Score across various complex scenarios, particularly in this video, where it handled challenging environments like nighttime street views effectively. 
 The automatic calibration ensured a strong balance between precision and recall, making it the most reliable model for accurate object detection and segmentation.
 The video has been compressed to 24 MB for upload purposes, but it still maintains the key detection and segmentation performance of Faster R-CNN.
+
+To view the Video : download RAW file
