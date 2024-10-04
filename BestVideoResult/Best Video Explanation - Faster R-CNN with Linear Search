@@ -1,0 +1,7 @@
+BestVideoResult - Explanation
+
+This video demonstrates the Faster R-CNN model applied to Video 2 from the MOT17 dataset, using automatic calibration (Linear Search).
+Faster R-CNN was selected as the best State-of-the-Art (SoA) system after evaluating three different models—Faster R-CNN,YOLOv8, and SSD300—based on their validity, reliability, and objectivity.
+Faster R-CNN achieved the highest mAP and F1-Score across various complex scenarios, particularly in this video, where it handled challenging environments like nighttime street views effectively. 
+The automatic calibration ensured a strong balance between precision and recall, making it the most reliable model for accurate object detection and segmentation.
+The video has been compressed to 24 MB for upload purposes, but it still maintains the key detection and segmentation performance of Faster R-CNN.
