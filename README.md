@@ -181,8 +181,6 @@ Processed videos with bounding boxes and labels drawn around detected objects ar
 
 ## Results and Metrics
 
-## Results and Metrics
-
 In this section, the results of the evaluation using different calibration methods will be presented (Automatic and Manual). These methods were applied on three videos from the **MOT17 Dataset**, specifically **Videos 02, 04, and 05**, and the models evaluated include Faster R-CNN, SSD300, and YOLOv8.
 
 ### 1. Binary Search Automatic Calibration
