@@ -98,6 +98,9 @@ These models utilize pre-trained weights available through PyTorch's model zoo. 
 
 #### 3. **MOT17 Dataset:**
 Download the [MOT17 Dataset](https://motchallenge.net/data/MOT17/) and extract it. Place the dataset in the `data` folder located in the project's root directory.
+Here's an example of how your directory structure should look:
+
+![MOT17 Directory Structure](https://github.com/Danielkis97/Video-Object-Detection/blob/main/assets/Directory.png?raw=true)
 
 ```bash
 mkdir -p data/MOT17
