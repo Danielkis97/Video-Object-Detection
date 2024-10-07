@@ -3,3 +3,6 @@ assets\
 BestVideoResult\
 assets/
 BestVideoResult\
+
+# Log files
+*.log
