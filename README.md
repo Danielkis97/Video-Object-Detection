@@ -132,25 +132,68 @@ videodetectionproject/
 ```
 
 
-#### Steps to Use the Application
+## Graphical User Interface (GUI)
+
+The application features a user-friendly **Graphical User Interface (GUI)** built with `tkinter`. The GUI allows you to select video sequences, configure models, and monitor the progress of processing.
+
+### GUI Overview
+
+![GUI Screenshot](https://github.com/Danielkis97/Video-Object-Detection/blob/main/assets/GUI%20Explanation.png?raw=true)
+
+
+### Main Components of the GUI
+
+1. **Sequence Selection:**
+   - **Add Sequences:** Browse and select directories containing your video sequences.
+   - **Remove Selected:** Remove selected sequences from the list.
+   - **Clear List:** Clear all sequences from the list.
+
+2. **Model Selection:**
+   - Select one or more models for object detection (e.g., YOLOv8s, Faster R-CNN, SSD).
+
+3. **Parameters:**
+   - **Automatic Calibration:** Enable or disable the automatic calibration of confidence thresholds.
+   - **Confidence Threshold:** Manually set the confidence threshold if automatic calibration is disabled.
+   - **Calibration Method:** Choose between Linear Search (more accurate) and Binary Search (faster).
+
+4. **Control Buttons:**
+   - **Start Processing:** Begin processing the selected sequences with the chosen models.
+   - **Stop Processing:** Stop the processing at any time.
+
+5. **Progress Bar:**
+   - Monitor the progress of processing in real-time.
+
+6. **Status Display:**
+   - View status messages and updates during processing.
+
+7. **Evaluation Results:**
+   - After processing, detailed performance metrics are displayed in this section.
+
+### Using the GUI
 
 1. **Select Video Sequences:**
-    - Click on the "Add Sequences" button to browse and select directories containing videos.
-    - Supported format is mp4 .
+   - Click on "Add Sequences" to browse and select directories containing your video sequences.
+   - Supported format is the folder structure of the MOT17 dataset sequences.
+
 2. **Choose Detection Models:**
-    - Select one or more models (YOLOv8, Faster R-CNN, SSD) by checking the corresponding boxes.
+   - Check the boxes next to the desired models (e.g., YOLOv8s, Faster R-CNN, SSD).
+
 3. **Configure Parameters:**
-    - Enable "Automatic Calibration" to let the application determine optimal confidence thresholds.
-    - Choose the calibration method: Linear Search (standard, more accurate) or Binary Search (faster).
-    - If automatic calibration is disabled, manually set the confidence threshold.
+   - Enable "Automatic Calibration" to let the application determine optimal confidence thresholds.
+   - Choose the calibration method: Linear Search (more accurate) or Binary Search (faster).
+   - If automatic calibration is disabled, manually set the desired confidence threshold.
+
 4. **Start Processing:**
-    - Click on the "Start Processing" button to begin object detection on the selected video sequences.
-    - Monitor progress through the progress bar and status display.
+   - Click on "Start Processing" to begin object detection on the selected sequences.
+   - Monitor the progress through the progress bar and status display.
+
 5. **Stop Processing:**
-    - Click on the "Stop Processing" button to terminate the process at any time.
+   - Click on "Stop Processing" to terminate the process at any time.
+
 6. **View Results:**
-    - Upon completion, annotated videos, metrics tables, and confusion matrix images will be saved in the output directory.
-    - Evaluation results are displayed within the application under the "Evaluation Results" section.
+   - Upon completion, annotated videos, metrics tables, and confusion matrix images will be saved in the output directory.
+   - Evaluation results are displayed within the application under the "Evaluation Results" section.
+
 
 ## Evaluation
 The application computes a range of performance metrics to evaluate the effectiveness of the object detection models.
