@@ -78,7 +78,17 @@ It's recommended to use a virtual environment to manage dependencies.
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  
+```
+#### Alternative for different Operating Systems(OS)
+
+### On Windows:
+```bash
+.venv\Scripts\activate
+```
+### On Unix/macOS:
+```bash
+source .venv/bin/activate
 ```
 
 ### Install Dependencies
