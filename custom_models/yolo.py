@@ -5,25 +5,27 @@ from ultralytics import YOLO
 import matplotlib.pyplot as plt
 from matplotlib.table import Table
 import time
+import torch
 
 class YOLOv8Model:
     def __init__(self, model_path='yolov8s.pt', device='cpu', confidence_threshold=0.25, iou_threshold=0.45):
         """
-        Initializes the YOLOv8 model for inference.
+        Initializes the YOLOv8Model with the specified parameters.
 
         Args:
             model_path (str): Path to the YOLOv8 model weights.
-            device (str): 'cpu' or 'cuda'. (Forced to 'cpu')
-            confidence_threshold (float): Minimum confidence for detections.
-            iou_threshold (float): IoU threshold for Non-Max Suppression.
+            device (str): Device to run the model on ('cpu' or 'cuda').
+                          For your project, this should remain 'cpu'.
+            confidence_threshold (float): Confidence threshold for detections.
+            iou_threshold (float): IoU threshold for metric calculations.
         """
-        self.device = 'cpu'  # Force to CPU
+        self.device = device 
         self.confidence_threshold = confidence_threshold  # Set before loading the model
         self.iou_threshold = iou_threshold
 
         self.model = self.load_model(model_path)
 
-        # Get model class names (COCO dataset)
+        
         self.class_names = self.model.names
         logging.info(f"Model class names: {self.class_names}")
 
@@ -31,8 +33,18 @@ class YOLOv8Model:
         self.reset_metrics()
 
     def to(self, device):
-        # Override to do nothing since we're forcing CPU usage
-        self.device = 'cpu'
+        """
+        Moves the model to the specified device.
+        For your project, this will always set the device to 'cpu'.
+
+        Args:
+            device (str): Device to move the model to ('cpu').
+
+        Returns:
+            self
+        """
+        self.device = device
+        self.model.to(self.device)
         logging.info(f"Model is set to {self.device}.")
         return self
 
@@ -44,7 +56,7 @@ class YOLOv8Model:
             threshold (float): Confidence threshold value.
         """
         self.confidence_threshold = threshold
-        self.model.conf = threshold  # Update model's confidence threshold
+        # Removed self.model.conf = threshold since it does not affect predictions
         logging.info(f"Confidence threshold set to {self.confidence_threshold}.")
 
     def calculate_iou(self, boxA, boxB):
@@ -86,7 +98,7 @@ class YOLOv8Model:
         """
         try:
             model = YOLO(model_path)
-            model.conf = self.confidence_threshold  # Set the confidence threshold in the model
+            model.to(self.device)  # Move the model to the specified device
             logging.info(f"YOLOv8 model loaded from {model_path} on {self.device}.")
             logging.info(f"Model class names: {model.names}")
             return model
@@ -105,9 +117,14 @@ class YOLOv8Model:
             dict: Detected boxes, scores, and labels.
         """
         try:
-            start_time = time.time()  # Startzeit messen
+            start_time = time.time()  # Start timing
 
-            results = self.model.predict(frame, device=self.device, verbose=False)
+            results = self.model.predict(
+                frame,
+                device=self.device,
+                verbose=False,
+                conf=self.confidence_threshold  # Specify confidence threshold here
+            )
             detections = results[0]
 
             if detections.boxes is None or len(detections.boxes) == 0:
@@ -116,9 +133,9 @@ class YOLOv8Model:
             else:
                 logging.info(f"Number of detections: {len(detections.boxes)}")
 
-            boxes = detections.boxes.xyxy.numpy()  # Bounding Boxes [x1, y1, x2, y2]
-            scores = detections.boxes.conf.numpy()  # Confidence Scores
-            labels = detections.boxes.cls.numpy().astype(int)  # Class Labels
+            boxes = detections.boxes.xyxy.cpu().numpy()  # Bounding Boxes [x1, y1, x2, y2]
+            scores = detections.boxes.conf.cpu().numpy()  # Confidence Scores
+            labels = detections.boxes.cls.cpu().numpy().astype(int)  # Class Labels
 
             logging.info(f"Detected labels: {labels}")
             logging.info(f"Detected scores: {scores}")
@@ -130,7 +147,7 @@ class YOLOv8Model:
                 logging.info("No detections after filtering.")
                 return None
 
-            end_time = time.time()  # Endzeit messen
+            end_time = time.time()  # End timing
             processing_time = end_time - start_time
 
             # Add processing time to metrics
@@ -169,7 +186,7 @@ class YOLOv8Model:
 
     def update_metrics(self, detections, ground_truths):
         """
-        Updates the metrics based on detections and ground truths.
+        Updates the metrics based on detecctions and ground truths.
 
         Args:
             detections (dict): Detections with boxes, scores, and labels.
@@ -188,17 +205,18 @@ class YOLOv8Model:
         gt_labels = ground_truths['labels']
 
         # Map ground truth labels to match YOLOv8 labels
-        gt_labels_mapped = np.array([0 if label == 1 else -1 for label in gt_labels])
+        # Assuming 'person' class is label 0
+        gt_labels_mapped = np.array([0 if label == 0 else -1 for label in gt_labels])
 
         logging.info(f"Ground truth labels (original): {gt_labels}")
         logging.info(f"Ground truth labels (mapped): {gt_labels_mapped}")
 
         # Filter out any ground truths that are not 'person' after mapping
         valid_gt_indices = gt_labels_mapped != -1
-        gt_boxes = gt_boxes[valid_gt_indices]
+        gt_boxes = np.array(gt_boxes)[valid_gt_indices]
         gt_labels = gt_labels_mapped[valid_gt_indices]
 
-        # Track matched grounds truths
+        # Track matched ground truths
         matched_gt = set()
 
         for det_box, det_label, det_score in zip(detected_boxes, detected_labels, detected_scores):
