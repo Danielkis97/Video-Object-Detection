@@ -1,5 +1,3 @@
-# custom_models/ssd.py
-
 import torch
 import logging
 import cv2
