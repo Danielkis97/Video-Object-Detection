@@ -1,3 +1,5 @@
 # Ignore assets and bestvideoresults directories
-/assets/
-/bestvideoresults/
+assets\
+BestVideoResult\
+assets/
+BestVideoResult\
