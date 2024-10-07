@@ -88,6 +88,11 @@ Install the required Python packages using pip.
 pip install -r requirements.txt
 ```
 
+### Upgrade PIP(Optional)
+If asked for, upgrade the pip.
+```bash
+ python.exe -m pip install --upgrade pip
+```
 ### Additional Setup
 
 #### 1. **Ultralytics YOLOv8:**
