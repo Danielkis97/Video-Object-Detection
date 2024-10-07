@@ -90,9 +90,15 @@ pip install -r requirements.txt
 
 ### Upgrade PIP(Optional)
 If asked for, upgrade the pip.
+
 ```bash
  python.exe -m pip install --upgrade pip
 ```
+
+
+> [!NOTE]
+> If the "Assets" and "BestVideoResult" folders are also cloned, you can ignore them.
+
 ### Additional Setup
 
 #### 1. **Ultralytics YOLOv8:**
